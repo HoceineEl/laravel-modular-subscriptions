@@ -3,8 +3,6 @@
 return [
     'modules' => [
         // List all available module classes here
-        App\Modules\SubscribersModule::class,
-        // Add other modules...
     ],
     'models' => [
         'plan' => HoceineEl\LaravelModularSubscriptions\Models\Plan::class,

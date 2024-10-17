@@ -10,6 +10,7 @@ use HoceineEl\LaravelModularSubscriptions\Models\Plan;
 use HoceineEl\LaravelModularSubscriptions\Enums\Interval;
 use HoceineEl\LaravelModularSubscriptions\Facades\ModularSubscriptions;
 use Illuminate\Support\Facades\DB;
+use HoceineEl\LaravelModularSubscriptions\Enums\SubscriptionStatus;
 
 trait Subscribable
 {
@@ -27,7 +28,7 @@ trait Subscribable
                 $query->whereNull('ends_at')
                     ->orWhere('ends_at', '>', now());
             })
-            ->where('status', 'active')
+            ->where('status', SubscriptionStatus::ACTIVE)
             ->latest('starts_at')
             ->first();
     }
@@ -67,7 +68,7 @@ trait Subscribable
         }
 
         $activeSubscription->update([
-            'status' => 'cancelled',
+            'status' => SubscriptionStatus::CANCELLED,
             'ends_at' => now(),
         ]);
 
@@ -203,7 +204,7 @@ trait Subscribable
             'subscribable_type' => get_class($this),
             'starts_at' => $startDate,
             'ends_at' => $endDate,
-            'status' => 'active',
+            'status' => SubscriptionStatus::ACTIVE,
         ]);
 
         if ($trialDays || $plan->trial_period > 0) {
@@ -272,23 +273,6 @@ trait Subscribable
         return $this->totalUsage() > $limit;
     }
 
-    public function dailyAverageUsage(): float
-    {
-        $activeSubscription = $this->activeSubscription();
-        if (!$activeSubscription) {
-            return 0;
-        }
-
-        $totalDays = $activeSubscription->starts_at->diffInDays(now()) + 1;
-        return $this->totalUsage() / $totalDays;
-    }
-
-    public function projectedUsage(Carbon $targetDate): float
-    {
-        $dailyAverage = $this->dailyAverageUsage();
-        $daysUntilTarget = now()->diffInDays($targetDate);
-        return $this->totalUsage() + ($dailyAverage * $daysUntilTarget);
-    }
 
     public function onTrial(): bool
     {

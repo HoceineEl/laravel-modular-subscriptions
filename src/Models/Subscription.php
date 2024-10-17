@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Config;
+use HoceineEl\LaravelModularSubscriptions\Enums\SubscriptionStatus;
 
 class Subscription extends Model
 {
@@ -24,6 +25,7 @@ class Subscription extends Model
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
         'trial_ends_at' => 'datetime',
+        'status' => SubscriptionStatus::class,
     ];
 
     public function plan(): BelongsTo

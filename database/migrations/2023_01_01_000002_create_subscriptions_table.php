@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use HoceineEl\LaravelModularSubscriptions\Enums\SubscriptionStatus;
 
 return new class extends Migration
 {
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->timestamp('starts_at');
             $table->timestamp('ends_at')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
-            $table->string('status')->default('active');
+            $table->string('status')->default(SubscriptionStatus::ACTIVE->value);
             $table->json('metadata')->nullable();
             $table->timestamps();
         });

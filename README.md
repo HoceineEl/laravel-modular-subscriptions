@@ -13,11 +13,16 @@ composer require hoceineel/laravel-modular-subscriptions
 ```bash
 php artisan vendor:publish --provider="HoceineEl\LaravelModularSubscriptions\ModularSubscriptionsServiceProvider" --tag="config"
 ```
+3. Publish the migrations:
+```bash
+php artisan vendor:publish --provider="HoceineEl\LaravelModularSubscriptions\ModularSubscriptionsServiceProvider" --tag="migrations"
+```
 
-3. Run the migrations:
+4. Run the migrations:
 ```bash
 php artisan migrate
 ```
+
 
 ## Configuration
 
